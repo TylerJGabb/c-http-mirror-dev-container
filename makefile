@@ -1,5 +1,5 @@
-main: *.c
-	gcc -o main main.c -Wall -Wextra -pedantic -std=c99 -lm
+main: *.c *.h
+	gcc -o main $^ -Wall -Wextra -pedantic -std=c99 -lm
 
 .PHONY: run
 run: main
