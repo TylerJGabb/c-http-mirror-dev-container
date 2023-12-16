@@ -65,7 +65,7 @@ int main()
         if (strstr(buffer, "?query=stop") != NULL)
         {
             printf("Stopping server\n");
-            char *response = "HTTP/1.1 500 GOING_AWAY\r\nContent-Type: text/html\r\n\r\nGOING AWAY";
+            char *response = "HTTP/1.1 200 GOING_AWAY\r\nContent-Type: text/html\r\n\r\nGOING AWAY";
             int bytes_sent = send(client_sockfd, response, strlen(response), 0);
             if (bytes_sent < 0)
             {
