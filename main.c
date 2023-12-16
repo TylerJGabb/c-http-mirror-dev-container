@@ -21,7 +21,7 @@ int main()
 
     // Set server address
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(8080);
+    server_addr.sin_port = htons(8081);
     server_addr.sin_addr.s_addr = INADDR_ANY;
 
     // Bind socket to the specified port
@@ -65,13 +65,20 @@ int main()
         if (strstr(buffer, "?query=stop") != NULL)
         {
             printf("Stopping server\n");
+            char *response = "HTTP/1.1 500 GOING_AWAY\r\nContent-Type: text/html\r\n\r\nGOING AWAY";
+            int bytes_sent = send(client_sockfd, response, strlen(response), 0);
+            if (bytes_sent < 0)
+            {
+                perror("Send failed");
+                exit(EXIT_FAILURE);
+            }
             close(sockfd);
             exit(EXIT_SUCCESS);
         }
 
         // Prepare the HTML response
         char response[2048];
-        snprintf(response, sizeof(response), "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<html><body>%s</body></html>", buffer);
+        snprintf(response, sizeof(response), "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n%s", buffer);
 
         // Send the HTML response back
         int bytes_sent = send(client_sockfd, response, strlen(response), 0);
