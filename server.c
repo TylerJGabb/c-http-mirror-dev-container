@@ -87,7 +87,7 @@ int listen_and_serve_http(int port) {
       printf("Stopping server\n");
       char *response =
           "HTTP/1.1 200 GOING_AWAY\r\n"
-          "Content-Type: text/html\r\n"
+          "Content-Type: text/plain\r\n"
           "\r\n"
           "GOING AWAY";
       send_to_socket(client_sockfd, response);
@@ -97,12 +97,12 @@ int listen_and_serve_http(int port) {
 
     // Prepare the HTML response
     char response[2048];
-    snprintf(response, sizeof(response),
-             "HTTP/1.1 200 OK\r\n"
-             "Content-Type: text/html\r\n"
-             "\r\n"
-             "%s",
-             buffer);
+    sprintf(response,
+            "HTTP/1.1 200 OK\r\n"
+            "Content-Type: text/plain\r\n"
+            "\r\n"
+            "%s",
+            buffer);
     send_to_socket(client_sockfd, response);
     printf("Sent Mirror\n");
     close(client_sockfd);
